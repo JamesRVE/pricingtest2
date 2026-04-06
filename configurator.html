@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rentvine — Proposal Configurator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #00a54f;
+    --navy: #0d1f2d;
+    --border: #e2e8f0;
+    --muted: #64748b;
+    --radius: 12px;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f8fafc;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    background: var(--navy);
+    padding: 0 32px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo-wrap { display: flex; align-items: center; }
+  .logo-wrap svg { height: 28px; width: auto; }
+
+  .header-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255,255,255,.5);
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 48px 24px;
+  }
+
+  .configurator-wrap {
+    width: 100%;
+    max-width: 560px;
+  }
+
+  .config-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+
+  .config-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 6px;
+    letter-spacing: -.02em;
+  }
+
+  .config-subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+
+  .config-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    margin-bottom: 16px;
+  }
+
+  .config-card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .field-row.single { grid-template-columns: 1fr; }
+
+  .field { display: flex; flex-direction: column; gap: 6px; }
+
+  label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  .field-hint {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: -3px;
+  }
+
+  .input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .input-prefix {
+    position: absolute;
+    left: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted);
+    pointer-events: none;
+  }
+
+  input[type="text"],
+  input[type="number"] {
+    width: 100%;
+    height: 42px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    padding: 0 12px 0 28px;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+    background: #fff;
+  }
+
+  input[type="text"] { padding: 0 12px; }
+
+  input:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(0,165,79,.12);
+  }
+
+  .generate-btn {
+    width: 100%;
+    height: 48px;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: opacity .15s, transform .1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .generate-btn:hover { opacity: .92; transform: translateY(-1px); }
+  .generate-btn:active { transform: translateY(0); }
+
+  .result-box {
+    display: none;
+    background: #fff;
+    border: 1px solid var(--green);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    box-shadow: 0 0 0 3px rgba(0,165,79,.08);
+  }
+
+  .result-box.visible { display: block; }
+
+  .result-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+
+  .result-url {
+    font-size: 12.5px;
+    color: var(--muted);
+    word-break: break-all;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+
+  .result-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .copy-btn, .open-btn {
+    flex: 1;
+    height: 40px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: opacity .15s;
+  }
+
+  .copy-btn {
+    background: var(--navy);
+    color: #fff;
+  }
+
+  .copy-btn.copied {
+    background: var(--green);
+  }
+
+  .open-btn {
+    background: #f0fbf5;
+    color: var(--navy);
+    border: 1px solid rgba(0,165,79,.3);
+  }
+
+  .copy-btn:hover, .open-btn:hover { opacity: .85; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-wrap">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 827.704 177" aria-label="Rentvine">
+      <g>
+        <path d="M59,0l53.3998,53.3998c3.5858,3.5858,5.6002,8.4491,5.6002,13.5201v51.0801l-59-59V0Z" fill="#00a54f"/>
+        <path d="M59,59L5.6002,112.3998c-3.5858,3.5858-5.6002,8.4491-5.6002,13.5201v51.0801l53.3998-53.3998c3.5858-3.5858,5.6002-8.4491,5.6002-13.5201v-51.0801Z" fill="#00a54f"/>
+        <path d="M169.8,150.085c-.552,0-1-.448-1-1V63.0106c0-4.3061,3.485-7.7985,7.781-7.7985h9.201c.552,0,1,.4477,1,1v12.6447c0,1.0001,1.355,1.4124,1.962.6175,3.466-4.5383,7.702-7.9988,12.708-10.3728,5.689-2.7027,11.632-4.1229,17.838-4.2604.552-.0122,1,.4367,1,.989v8.768c0,3.9588-2.965,7.238-6.88,7.749-3.202.4117-6.301,1.1212-9.305,2.1282-5.113,1.7066-9.275,4.4896-12.492,8.3492-3.218,3.8596-4.826,9.0785-4.826,15.6517v43.8098c0,4.306-3.485,7.799-7.781,7.799h-9.206Z" fill="#fff"/>
+        <path d="M335.82,150.083c-.553.001-1.002-.447-1.002-1V63.0108c0-4.306,3.485-7.7985,7.781-7.7985h8.825c.552,0,1,.4477,1,1v9.282c0,1.0111,1.389,1.4208,1.995.6111,2.817-3.7674,6.221-6.7659,10.215-8.998,4.984-2.7831,10.696-4.1722,17.13-4.1722,7.444,0,13.913,1.5181,19.402,4.5542,5.489,3.0361,9.716,7.7489,12.686,14.1336,2.965,6.3897,4.449,14.7686,4.449,25.1419v45.5161c0,4.306-3.484,7.799-7.78,7.799h-9.201c-.552,0-1-.448-1-1v-47.572c0-8.6027-.98-15.1461-2.935-19.6407-1.96-4.4897-4.672-7.62-8.142-9.391-3.475-1.7711-7.479-2.7186-12.022-2.8476-7.702,0-13.696,2.7235-17.982,8.1607-4.291,5.4421-6.434,13.0919-6.434,22.9596v41.532c0,4.306-3.485,7.799-7.781,7.799h-7.559l-1.645.003Z" fill="#fff"/>
+        <path d="M726.163,55.2121h9.206c.552,0,1,.4477,1,1v58.6289c0,9.8677,2.143,17.5175,6.434,22.9596,4.286,5.4372,10.28,8.1607,17.982,8.1607,4.543-.1289,8.547-1.0765,12.022-2.8476,3.47-1.7711,6.182-4.9014,8.142-9.391,1.955-4.4946,2.935-11.038,2.935-19.6407v-47.572c0-.5523.448-1,1-1h9.201c4.296,0,7.78,3.4924,7.78,7.799v45.5161c0,10.3733-1.484,18.7522-4.449,25.1419-2.97,6.3847-7.197,11.0975-12.686,14.1336-5.489,3.0361-11.958,4.5542-19.402,4.5542-6.434,0-12.146-1.3891-17.13-4.1722-3.994-2.2321-7.398-5.2306-10.215-8.998-.606-.8097-1.995-.3999-1.995.6111v9.282c0,.5523-.448,1-1,1h-8.825c-4.296,0-7.781-3.4934-7.781-7.799V63.0108c0-4.3066,3.485-7.7987,7.781-7.7987Z" fill="#fff"/>
+        <path d="M579.305,152.362c-9.216,0-17.353-2.118-24.421-6.355-7.068-4.237-12.621-10.086-16.66-17.552-4.039-7.461-6.058-16.063-6.058-25.806s2.019-18.3409,6.058-25.8071c4.039-7.4612,9.622-13.3102,16.754-17.5518,7.128-4.2366,15.299-6.3549,24.515-6.3549,8.706,0,16.343,2.1829,22.906,6.5485,6.563,4.3656,11.706,10.5618,15.428,18.5935,3.606,7.788,5.466,16.9037,5.578,27.3612.006.5504-.444,1.0056-.995,1.0056h-70.812c-.575,0-1.037.4981-.986,1.0711.789,8.8491,3.885,15.7987,9.286,20.8459,5.613,5.249,12.522,7.873,20.729,7.873,6.31,0,9.501-1.483,13.733-4.46,2.549-1.791,3.119-2.84,5-5.212,2.747-3.463,2.863-5.964,7.95-5.964h11.456c.588,0,1.045.5324.93,1.1095-.677,3.3938-3.027,8.0814-5.6,12.1223-2.456,3.8592-5.519,7.3039-9.086,10.1676-1.581,1.269-2.949,2.1537-5.649,3.6537-6,3-13.244,4.711-20.06,4.711h.005ZM603.064,92.2108c.582,0,1.007-.4955.946-1.0742-.483-4.5925-1.807-8.5015-3.972-11.7349-2.336-3.4776-5.3-6.1664-8.899-8.0664-3.598-1.8951-7.607-2.8476-12.022-2.8476s-8.459.9178-12.493,2.7533c-4.038,1.8356-7.414,4.5244-10.126,8.0665-2.519,3.2833-4.085,7.2189-4.699,11.8067-.078.5859.388,1.0966.979,1.0966h50.286Z" fill="#fff"/>
+        <path d="M456.973,150.083h-9.199c-.553,0-1.002-.448-1.002-1.001l-.012-130.478c0-4.3057,3.484-7.7979,7.779-7.7979h9.212c.553,0,1.002.4477,1.002,1.0005l.003,36.2688c0,1.0048,1.212,1.5078,1.925.7975,4.496-4.5125,9.562-7.9673,15.199-10.365,5.973-2.5307,12.235-3.7989,18.789-3.7989,9.281,0,17.549,2.2476,24.806,6.7476,7.252,4.4999,12.94,10.7739,17.062,18.8219,4.117,8.0481,6.178,17.2604,6.178,27.6369,0,10.3766-2.061,19.6205-6.178,27.7326-4.122,8.1162-9.81,14.4862-17.062,19.1122-7.257,4.625-15.525,6.938-24.806,6.938-6.554,0-12.816-1.269-18.789-3.804-5.637-2.398-10.703-5.853-15.199-10.366-.713-.7103-1.925-.2073-1.925.7975v2.5617c0,4.3057-3.484,7.7987-7.783,7.7987ZM499.204,135.078c5.988,0,11.316-1.548,15.984-4.644,4.668-3.091,8.318-7.426,10.946-13.001,2.629-5.575,3.942-11.956,3.942-19.144,0-7.1866-1.313-13.5358-3.942-19.047-2.628-5.5112-6.278-9.8142-10.946-12.9102-4.668-3.0911-9.996-4.6367-15.984-4.6367-6.054,0-11.446,1.5456-16.178,4.6367-4.732,3.096-8.414,7.3989-11.046,12.9102-2.636,5.5112-3.951,11.8604-3.951,19.047,0,7.188,1.315,13.569,3.951,19.144,2.632,5.575,6.314,9.91,11.046,13.001,4.732,3.096,10.124,4.644,16.178,4.644Z" fill="#fff"/>
+        <path d="M272.91,152.362c-9.216,0-17.353-2.118-24.421-6.355-7.068-4.237-12.621-10.086-16.66-17.552-4.039-7.461-6.058-16.063-6.058-25.806s2.019-18.3409,6.058-25.8071c4.039-7.4612,9.622-13.3102,16.754-17.5518,7.128-4.2366,15.299-6.3549,24.515-6.3549,8.706,0,16.343,2.1829,22.906,6.5485,6.563,4.3656,11.706,10.5618,15.428,18.5935,3.6064,7.788,5.4663,16.9037,5.5779,27.3612.0059.5504-.4445,1.0056-.995,1.0056h-70.812c-.5753,0-1.0367.4981-.9856,1.0711.7886,8.8491,3.8845,15.7987,9.2856,20.8459,5.613,5.249,12.522,7.873,20.729,7.873,6.31,0,9.501-1.483,13.733-4.46,2.549-1.791,3.119-2.84,5-5.212,2.747-3.463,2.863-5.964,7.95-5.964h11.456c.5884,0,1.0447.5324.9295,1.1095-.6773,3.3938-3.0272,8.0814-5.5996,12.1223-2.4568,3.8592-5.519,7.3039-9.0867,10.1676-1.5809,1.269-2.9493,2.1537-5.6493,3.6537-6,3-13.244,4.711-20.06,4.711h.005ZM296.669,92.2108c.582,0,1.007-.4955.946-1.0742-.483-4.5925-1.807-8.5015-3.972-11.7349-2.336-3.4776-5.3-6.1664-8.899-8.0664-3.598-1.8951-7.607-2.8476-12.022-2.8476s-8.459.9178-12.493,2.7533c-4.038,1.8356-7.414,4.5244-10.126,8.0665-2.519,3.2833-4.085,7.2189-4.699,11.8067-.078.5859.388,1.0966.979,1.0966h50.286Z" fill="#fff"/>
+        <path d="M633.835,150.085h-9.2c-.552,0-1-.448-1-1V86.0867c0-.5523-.448-1-1-1h-11.936c-.552,0-1-.4477-1-1V75.1374c0-.5523.448-1,1-1h11.936c.552,0,1-.4477,1-1V42.4274c0-4.306,3.484-7.7985,7.779-7.7985h9.207c.553,0,1.002.4477,1.002,1.0005v37.5106c0,.5523.448,1,1,1h15.576c.552,0,1,.4477,1,1v9.8493c0,.5523-.448,1-1,1h-15.576c-.552,0-1,.4477-1,1v63.001c0,.5523-.448,1-1,1h-.788Z" fill="#fff"/>
+      </g>
+    </svg>
+  </div>
+  <span class="header-label">Proposal Configurator</span>
+</header>
+
+<main>
+  <div class="configurator-wrap">
+    <div class="config-eyebrow">Sales Tool</div>
+    <h1 class="config-title">Build a Custom Proposal</h1>
+    <p class="config-subtitle">Set the pricing for this customer and generate a unique shareable link. The link opens a customized version of the pricing page.</p>
+
+    <div class="config-card">
+      <div class="config-card-title">Monthly Subscription</div>
+      <div class="field-row single">
+        <div class="field">
+          <label for="price_per_unit">Price per unit / month</label>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input type="number" id="price_per_unit" value="2.50" step="0.01" min="0" placeholder="2.50"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="config-card">
+      <div class="config-card-title">One-Time Onboarding Fee</div>
+      <div class="field-row">
+        <div class="field">
+          <label for="ob_per_unit">Fee per unit</label>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input type="number" id="ob_per_unit" value="10" step="0.01" min="0" placeholder="10"/>
+          </div>
+        </div>
+        <div class="field">
+          <label for="ob_min">Minimum fee</label>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input type="number" id="ob_min" value="500" step="1" min="0" placeholder="500"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="config-card">
+      <div class="config-card-title">Rentfinder.ai</div>
+      <div class="field-row single">
+        <div class="field">
+          <label for="rf_rv_price">RF-RV Platform (per unit / mo)</label>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input type="number" id="rf_rv_price" value="0.50" step="0.01" min="0" placeholder="0.50"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="config-card">
+      <div class="config-card-title">Transaction Fees</div>
+      <div class="field-row single">
+        <div class="field">
+          <label for="ach_inbound">Inbound ACH</label>
+          <span class="field-hint">Enter 0 to show as "Free"</span>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input type="number" id="ach_inbound" value="0" step="0.01" min="0" placeholder="0"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="generate-btn" onclick="generateLink()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      Generate Proposal Link
+    </button>
+
+    <div id="result" class="result-box" style="margin-top:16px;">
+      <div class="result-label">Your Proposal Link</div>
+      <div id="result-url" class="result-url"></div>
+      <div class="result-actions">
+        <button class="copy-btn" id="copy-btn" onclick="copyLink()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Link
+        </button>
+        <button class="open-btn" id="open-btn" onclick="openLink()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Preview
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  let generatedUrl = '';
+
+  function generateLink() {
+    const price   = parseFloat(document.getElementById('price_per_unit').value) || 2.50;
+    const obPrice = parseFloat(document.getElementById('ob_per_unit').value)    || 10;
+    const obMin   = parseFloat(document.getElementById('ob_min').value)         || 500;
+    const ach     = parseFloat(document.getElementById('ach_inbound').value)    || 0;
+    const rf      = parseFloat(document.getElementById('rf_rv_price').value)    || 0.50;
+
+    const base = window.location.href.replace('configurator.html', 'index.html');
+    const params = new URLSearchParams({
+      price:    price.toFixed(2),
+      ob_price: obPrice.toFixed(2),
+      ob_min:   obMin.toFixed(0),
+      ach:      ach.toFixed(2),
+      rf:       rf.toFixed(2)
+    });
+
+    generatedUrl = `${base}?${params.toString()}`;
+    document.getElementById('result-url').textContent = generatedUrl;
+    document.getElementById('result').classList.add('visible');
+    document.getElementById('copy-btn').textContent = '';
+    document.getElementById('copy-btn').innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Link';
+    document.getElementById('copy-btn').classList.remove('copied');
+  }
+
+  function copyLink() {
+    navigator.clipboard.writeText(generatedUrl).then(() => {
+      const btn = document.getElementById('copy-btn');
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Link';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+
+  function openLink() {
+    window.open(generatedUrl, '_blank');
+  }
+</script>
+
+</body>
+</html>
