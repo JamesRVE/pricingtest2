@@ -72,6 +72,44 @@
       border-radius: 20px;
     }
 
+    /* ── OFFER BANNER ── */
+    #offer-banner {
+      display: none;
+      background: linear-gradient(90deg, #00a54f 0%, #00873f 100%);
+      color: #fff;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: .01em;
+    }
+    #offer-banner-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    #offer-banner span { opacity: .9; font-weight: 400; }
+    #offer-banner strong { font-weight: 700; }
+    #accept-offer-btn {
+      display: inline-block;
+      background: #fff;
+      color: #00873f;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background .15s, color .15s;
+      box-shadow: 0 1px 4px rgba(0,0,0,.15);
+    }
+    #accept-offer-btn:hover {
+      background: #e8f7ef;
+    }
+
     /* ── HERO ── */
     .hero {
       background: linear-gradient(135deg, var(--navy) 0%, #1a3547 60%, #0f2c20 100%);
@@ -198,8 +236,42 @@
       margin-bottom: 28px;
     }
 
+    .pricing-grid.has-option-b { grid-template-columns: repeat(3, 1fr); }
+
+    @media (max-width: 900px) {
+      .pricing-grid.has-option-b { grid-template-columns: 1fr 1fr; }
+    }
+
     @media (max-width: 700px) {
       .pricing-grid { grid-template-columns: 1fr; }
+      .pricing-grid.has-option-b { grid-template-columns: 1fr; }
+    }
+
+    .option-badge {
+      display: inline-block;
+      background: var(--green);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+
+    .option-detail {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .option-detail strong {
+      color: var(--navy);
+      font-weight: 600;
     }
 
     .card {
@@ -212,6 +284,30 @@
     }
 
     .card:hover { box-shadow: var(--shadow-md); }
+
+    /* Wide layout when onboarding card is standalone in multi-option mode */
+    .card--wide {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0 48px;
+      align-items: start;
+    }
+    .card--wide .card-icon,
+    .card--wide h3,
+    .card--wide .card-desc,
+    .card--wide .price-display,
+    .card--wide .price-min { grid-column: 1; }
+    .card--wide .divider { grid-column: 1 / -1; margin: 20px 0; }
+    .card--wide .feature-list {
+      grid-column: 2;
+      grid-row: 1 / span 10;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 24px;
+      align-content: start;
+      margin: 0;
+      padding: 0;
+    }
 
     .card.featured {
       border-color: var(--green);
@@ -723,6 +819,98 @@
       color: var(--muted);
       line-height: 1.5;
       margin-top: 4px;
+    }
+
+    /* ── ACCOUNTING AS A SERVICE ── */
+    .acct-section {
+      margin-top: 36px;
+    }
+
+    .acct-header {
+      margin-bottom: 20px;
+    }
+
+    .acct-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .acct-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .acct-grid { grid-template-columns: 1fr; }
+    }
+
+    .acct-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .acct-card-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--green);
+    }
+
+    .acct-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .acct-price {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -.02em;
+    }
+
+    .acct-price-sub {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .acct-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    .acct-features {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .acct-features li {
+      font-size: 13px;
+      color: var(--muted);
+      padding-left: 14px;
+      position: relative;
+      line-height: 1.4;
+    }
+
+    .acct-features li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: var(--green);
+      font-weight: 700;
     }
 
     /* ── OUTCOME BOX ── */
@@ -1402,6 +1590,14 @@
   <span class="header-badge">Sales Proposal</span>
 </header>
 
+<!-- OFFER BANNER -->
+<div id="offer-banner">
+  <div id="offer-banner-inner">
+    <div><span>This proposal is valid until </span><strong id="offer-date"></strong></div>
+    <a id="accept-offer-btn" href="https://share.hsforms.com/1OEKXUilxQSu5O3ZxQdJfdQ5ibll" target="_blank" rel="noopener">Accept Offer</a>
+  </div>
+</div>
+
 <!-- HERO -->
 <div id="main-hero" class="hero">
   <div class="hero-eyebrow">Property Management Software</div>
@@ -1444,20 +1640,19 @@
 
     <div class="pricing-grid">
 
-      <!-- Monthly Subscription -->
-      <div class="card featured">
+      <!-- Monthly Subscription / Option A -->
+      <div class="card featured" id="card-option-a">
         <div class="card-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00a54f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
           </svg>
         </div>
-        <h3>Monthly Subscription</h3>
-        <p class="card-desc">Per unit, billed monthly. Scales with your portfolio.</p>
+        <span class="option-badge" id="option-a-badge">Monthly Subscription</span>
         <div class="price-display">
           <span class="price-amount" id="val-monthly-price">$2.50</span>
           <span class="price-unit">/ unit / month</span>
         </div>
-        <span class="price-min"><strong id="val-monthly-min">$199</strong>/mo minimum</span>
+        <div class="option-detail">Inbound ACH: <strong id="val-ach-a">Free</strong></div>
         <hr class="divider"/>
         <ul class="feature-list">
           <li>
@@ -1493,10 +1688,39 @@
             Unlimited users
           </li>
         </ul>
+        <div id="sub-note-box" style="display:none; margin-top:16px; padding:12px 14px; background:#f0fbf5; border:1px solid rgba(0,165,79,.2); border-radius:8px; font-size:13px; color:#1a3a2a; line-height:1.55;">
+          <span id="sub-note-text"></span>
+        </div>
+      </div>
+
+      <!-- Option B (hidden unless price_b param set) -->
+      <div class="card featured" id="card-option-b" style="display:none;">
+        <div class="card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00a54f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
+          </svg>
+        </div>
+        <span class="option-badge">Option B</span>
+        <div class="price-display">
+          <span class="price-amount" id="val-price-b">$2.50</span>
+          <span class="price-unit">/ unit / month</span>
+        </div>
+        <div class="option-detail">Inbound ACH: <strong id="val-ach-b">Free</strong></div>
+        <hr class="divider"/>
+        <ul class="feature-list">
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>Full trust accounting</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>Leasing automation &amp; workflows</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>Maintenance management — AI included</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>Owner, Tenant &amp; Vendor portals</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>RentSign eSignature platform</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>Unlimited training &amp; phone support</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>API &amp; integrations</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>Unlimited users</li>
+        </ul>
       </div>
 
       <!-- Onboarding Fee -->
-      <div class="card">
+      <div class="card" id="card-onboarding">
         <div class="card-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00a54f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -1571,11 +1795,6 @@
         </thead>
         <tbody>
           <tr>
-            <td><strong>Inbound ACH</strong></td>
-            <td>Tenant-paid rent &amp; fees received via ACH</td>
-            <td id="val-ach-inbound"><span class="badge-free">Free</span></td>
-          </tr>
-          <tr>
             <td><strong>Outbound ACH</strong></td>
             <td>Owner distributions, vendor payments</td>
             <td>$1.00 / transaction</td>
@@ -1590,7 +1809,7 @@
     </div>
 
     <!-- Screening Add-Ons -->
-    <div class="table-card">
+    <div class="table-card" id="screening-table">
       <div class="table-card-header">
         <div class="card-icon" style="margin:0; width:36px; height:36px;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00a54f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -1648,6 +1867,17 @@
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- What's always free -->
+    <div class="section-title">Always Included at No Extra Cost</div>
+    <div class="section-sub" style="margin-bottom:16px;">No hidden fees. No surprises.</div>
+    <div class="free-grid">
+      <div class="free-item"><span class="free-item-dot"></span>1099 Processing</div>
+      <div class="free-item"><span class="free-item-dot"></span>Bank Accounts</div>
+      <div class="free-item"><span class="free-item-dot"></span>Data Storage</div>
+      <div class="free-item"><span class="free-item-dot"></span>Unlimited training</div>
+      <div class="free-item"><span class="free-item-dot"></span>Phone support</div>
     </div>
 
     <!-- Rentfinder.ai -->
@@ -1711,16 +1941,68 @@
       </div>
     </div>
 
-    <!-- What's always free -->
-    <div class="section-title">Always Included at No Extra Cost</div>
-    <div class="section-sub" style="margin-bottom:16px;">No hidden fees. No surprises.</div>
-    <div class="free-grid">
-      <div class="free-item"><span class="free-item-dot"></span>1099 Processing</div>
-      <div class="free-item"><span class="free-item-dot"></span>Bank Accounts</div>
-      <div class="free-item"><span class="free-item-dot"></span>Data Storage</div>
-      <div class="free-item"><span class="free-item-dot"></span>Unlimited training</div>
-      <div class="free-item"><span class="free-item-dot"></span>Phone support</div>
+    <!-- Accounting as a Service -->
+    <div class="acct-section">
+      <div class="acct-header">
+        <div class="rf-eyebrow">Add-On Service</div>
+        <h3 class="rf-title">Accounting as a Service</h3>
+        <p class="rf-desc">Full-service trust accounting managed by our team — so you can focus on growing your portfolio, not your books.</p>
+      </div>
+      <div class="acct-grid">
+
+        <div class="acct-card">
+          <div class="acct-card-label">Full-Service Trust Accounting</div>
+          <div>
+            <div class="acct-price-row">
+              <span class="acct-price">$13</span>
+              <span class="acct-price-sub">/ unit / mo<br>$500 minimum</span>
+            </div>
+          </div>
+          <hr class="acct-divider"/>
+          <ul class="acct-features">
+            <li>Accounts payable &amp; vendor payments</li>
+            <li>Owner payments, statements &amp; year-end cash flow</li>
+            <li>Move in/out accounting &amp; NSF processing</li>
+            <li>Banking transactions, transfers &amp; corrective entries</li>
+          </ul>
+        </div>
+
+        <div class="acct-card">
+          <div class="acct-card-label">Monthly Reconciliation</div>
+          <div>
+            <div class="acct-price-row">
+              <span class="acct-price">$1</span>
+              <span class="acct-price-sub">/ unit / mo per account<br>$150 minimum / mo</span>
+            </div>
+          </div>
+          <hr class="acct-divider"/>
+          <ul class="acct-features">
+            <li>Weekly soft reconciliations</li>
+            <li>Monthly hard reconciliation</li>
+            <li>Three-way reconciliation audit package</li>
+            <li>Identify &amp; report incorrect transactions</li>
+          </ul>
+        </div>
+
+        <div class="acct-card">
+          <div class="acct-card-label">Additional Projects</div>
+          <div>
+            <div class="acct-price-row">
+              <span class="acct-price">$200</span>
+              <span class="acct-price-sub">/ hr — consulting,<br>training &amp; clean-up</span>
+            </div>
+          </div>
+          <hr class="acct-divider"/>
+          <ul class="acct-features">
+            <li>$500 initial onboarding fee</li>
+            <li>Accounting set-up &amp; catch-up</li>
+            <li>$4.00 per electronic 1099 processed</li>
+          </ul>
+        </div>
+
+      </div>
     </div>
+
 
   </div><!-- /tab-pricing -->
 
@@ -1909,14 +2191,14 @@
     <div class="smartsites-grid">
 
       <!-- GROW -->
-      <div class="ss-card">
+      <div class="ss-card" id="ss-card-grow">
         <div class="ss-card-header">
           <div class="ss-tier-label">Package 1</div>
           <h3>Grow</h3>
           <div class="ss-pricing-row">
             <div class="ss-price-rentvine">
               <span class="label">Rentvine Price</span>
-              <span class="amount">$145</span>
+              <span class="amount" id="val-ss-grow">$145</span>
               <span class="per">/ month</span>
             </div>
             <div class="ss-price-original">
@@ -1955,7 +2237,7 @@
       </div>
 
       <!-- PREMIER -->
-      <div class="ss-card premier">
+      <div class="ss-card premier" id="ss-card-premier">
         <div class="ss-card-header">
           <div class="ss-popular-badge">Most Popular</div>
           <div class="ss-tier-label">Package 2</div>
@@ -1963,7 +2245,7 @@
           <div class="ss-pricing-row">
             <div class="ss-price-rentvine">
               <span class="label">Rentvine Price</span>
-              <span class="amount">$795</span>
+              <span class="amount" id="val-ss-premier">$795</span>
               <span class="per">/ month</span>
             </div>
             <div class="ss-price-original">
@@ -2077,22 +2359,72 @@
   // Apply custom pricing from URL params
   (function() {
     const p = new URLSearchParams(window.location.search);
-    if (!p.has('price') && !p.has('ob_price') && !p.has('ach') && !p.has('rf')) return;
+    if (!p.has('price_a') && !p.has('price') && !p.has('ob_price') && !p.has('rf') && !p.has('ss') && !p.has('exp') && !p.has('sg') && !p.has('sp')) return;
 
-    const price   = p.get('price');
+    if (p.get('exp')) {
+      const d = new Date(p.get('exp') + 'T00:00:00');
+      const formatted = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      document.getElementById('offer-date').textContent = formatted;
+      document.getElementById('offer-banner').style.display = 'block';
+    }
+
+    if (p.get('ss') === '0') {
+      const ssBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.textContent.trim().includes('SmartSites'));
+      if (ssBtn) ssBtn.style.display = 'none';
+      document.getElementById('tab-smartsites').style.display = 'none';
+      document.getElementById('ss-hero').style.display = 'none';
+    }
+    if (p.get('sg') === '0') document.getElementById('ss-card-grow').style.display = 'none';
+    if (p.get('sp') === '0') document.getElementById('ss-card-premier').style.display = 'none';
+
+    // Option A pricing
+    const priceA = p.get('price_a') || p.get('price');
+    const achA   = p.get('ach_a')   || p.get('ach');
+    if (priceA) document.getElementById('val-monthly-price').textContent = '$' + parseFloat(priceA).toFixed(2);
+    if (achA) {
+      const v = parseFloat(achA);
+      document.getElementById('val-ach-a').textContent = v === 0 ? 'Free' : '$' + v.toFixed(2) + ' / transaction';
+    }
+
+    // Option B pricing — show card if price_b is set
+    const priceB = p.get('price_b');
+    if (priceB) {
+      const achB = p.get('ach_b');
+      document.getElementById('val-price-b').textContent = '$' + parseFloat(priceB).toFixed(2);
+      if (achB !== null) {
+        const vb = parseFloat(achB);
+        document.getElementById('val-ach-b').textContent = vb === 0 ? 'Free' : '$' + vb.toFixed(2) + ' / transaction';
+      }
+      document.getElementById('card-option-b').style.display = '';
+      document.querySelector('.pricing-grid').classList.add('has-option-b');
+      document.getElementById('option-a-badge').textContent = 'Option A';
+      // Move onboarding card below screening add-ons and collapse grid to 2 cols
+      const obCard = document.getElementById('card-onboarding');
+      const screeningEl = document.getElementById('screening-table');
+      if (obCard && screeningEl) {
+        screeningEl.insertAdjacentElement('afterend', obCard);
+        obCard.classList.add('card--wide');
+        document.querySelector('.pricing-grid').style.gridTemplateColumns = 'repeat(2, 1fr)';
+      }
+    }
+
     const obPrice = p.get('ob_price');
     const obMin   = p.get('ob_min');
-    const ach     = p.get('ach');
     const rf      = p.get('rf');
+    if (obPrice) document.getElementById('val-ob-price').textContent = '$' + parseFloat(obPrice).toFixed(2);
+    if (obMin)   document.getElementById('val-ob-min').textContent   = '$' + parseInt(obMin);
+    if (rf)      document.getElementById('val-rf-rv').textContent    = '$' + parseFloat(rf).toFixed(2);
 
-    if (price)   document.getElementById('val-monthly-price').textContent  = '$' + parseFloat(price).toFixed(2);
-    if (obPrice) document.getElementById('val-ob-price').textContent       = '$' + parseFloat(obPrice).toFixed(2);
-    if (obMin)   document.getElementById('val-ob-min').textContent         = '$' + parseInt(obMin);
-    if (ach) {
-      const val = parseFloat(ach);
-      document.getElementById('val-ach-inbound').textContent = val === 0 ? 'Free' : '$' + val.toFixed(2) + ' / transaction';
+    const note = p.get('note');
+    if (note) {
+      document.getElementById('sub-note-text').textContent = note;
+      document.getElementById('sub-note-box').style.display = 'block';
     }
-    if (rf)      document.getElementById('val-rf-rv').textContent          = '$' + parseFloat(rf).toFixed(2);
+
+    const ssGrow    = p.get('ss_grow');
+    const ssPremier = p.get('ss_premier');
+    if (ssGrow)    document.getElementById('val-ss-grow').textContent    = '$' + parseInt(ssGrow).toLocaleString();
+    if (ssPremier) document.getElementById('val-ss-premier').textContent = '$' + parseInt(ssPremier).toLocaleString();
   })();
 
   function switchTab(name, btn) {
