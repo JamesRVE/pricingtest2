@@ -64,51 +64,32 @@
     .header-badge {
       background: var(--green);
       color: #fff;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 700;
-      letter-spacing: .06em;
+      letter-spacing: .04em;
       text-transform: uppercase;
-      padding: 4px 12px;
+      padding: 8px 18px;
       border-radius: 20px;
+      text-decoration: none;
+      transition: background .15s, box-shadow .15s;
+      box-shadow: 0 1px 4px rgba(0,0,0,.2);
+      white-space: nowrap;
+    }
+    .header-badge:hover {
+      background: #00873f;
+      box-shadow: 0 2px 8px rgba(0,0,0,.25);
     }
 
-    /* ── OFFER BANNER ── */
-    #offer-banner {
+    /* ── OFFER DATE (in hero) ── */
+    #offer-date-line {
       display: none;
-      background: linear-gradient(90deg, #00a54f 0%, #00873f 100%);
-      color: #fff;
-      padding: 12px 24px;
-      font-size: 14px;
-      font-weight: 600;
+      margin-top: 18px;
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(255,255,255,.75);
       letter-spacing: .01em;
     }
-    #offer-banner-inner {
-      max-width: 900px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    #offer-banner span { opacity: .9; font-weight: 400; }
-    #offer-banner strong { font-weight: 700; }
-    #accept-offer-btn {
-      display: inline-block;
-      background: #fff;
-      color: #00873f;
-      font-size: 13px;
-      font-weight: 700;
-      padding: 8px 20px;
-      border-radius: 6px;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: background .15s, color .15s;
-      box-shadow: 0 1px 4px rgba(0,0,0,.15);
-    }
-    #accept-offer-btn:hover {
-      background: #e8f7ef;
-    }
+    #offer-date-line strong { color: #fff; font-weight: 700; }
 
     /* ── HERO ── */
     .hero {
@@ -1587,22 +1568,15 @@
       </g>
     </svg>
   </div>
-  <span class="header-badge">Sales Proposal</span>
+  <a class="header-badge" id="accept-offer-btn" href="https://share.hsforms.com/1OEKXUilxQSu5O3ZxQdJfdQ5ibll" target="_blank" rel="noopener">Accept Offer</a>
 </header>
-
-<!-- OFFER BANNER -->
-<div id="offer-banner">
-  <div id="offer-banner-inner">
-    <div><span>This proposal is valid until </span><strong id="offer-date"></strong></div>
-    <a id="accept-offer-btn" href="https://share.hsforms.com/1OEKXUilxQSu5O3ZxQdJfdQ5ibll" target="_blank" rel="noopener">Accept Offer</a>
-  </div>
-</div>
 
 <!-- HERO -->
 <div id="main-hero" class="hero">
   <div class="hero-eyebrow">Property Management Software</div>
   <h1>Simple pricing.<br/><span>Powerful platform.</span></h1>
   <p>Everything you need to grow your property management business, lead generation, operations, retention, and more.</p>
+  <div id="offer-date-line"><span>This proposal is valid until </span><strong id="offer-date"></strong></div>
 </div>
 
 <!-- SMARTSITES HERO (shown when SmartSites tab is active) -->
@@ -1610,7 +1584,9 @@
   <div class="ss-eyebrow">Rentvine SmartSites</div>
   <h3 class="ss-intro-title">Your website, built for <span>owner lead generation.</span></h3>
   <p class="ss-intro-desc">Powered by Property Manager Websites — we build and manage a high-performing site during your onboarding, with built-in SEO, lead capture, and exclusive Rentvine client pricing included.</p>
+  <div id="offer-date-line-ss" style="display:none; margin-top:18px; font-size:13px; font-weight:400; color:rgba(255,255,255,.75); letter-spacing:.01em;"><span>This proposal is valid until </span><strong style="color:#fff; font-weight:700;" id="offer-date-ss"></strong></div>
 </div>
+
 
 <!-- TABS -->
 <div class="tabs-container">
@@ -1901,8 +1877,7 @@
           <div class="rf-plan-desc">Pay as you go — only pay for what you use.</div>
         </div>
 
-        <div class="rf-card rf-card-featured">
-          <div class="rf-popular-badge">Best Value</div>
+        <div class="rf-card">
           <div class="rf-plan-label">RF-RV Unlimited</div>
           <div class="rf-price-row">
             <span class="rf-amount" id="val-rf-rv">$0.50</span>
@@ -2365,7 +2340,9 @@
       const d = new Date(p.get('exp') + 'T00:00:00');
       const formatted = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
       document.getElementById('offer-date').textContent = formatted;
-      document.getElementById('offer-banner').style.display = 'block';
+      document.getElementById('offer-date-line').style.display = 'block';
+      document.getElementById('offer-date-ss').textContent = formatted;
+      document.getElementById('offer-date-line-ss').style.display = 'block';
     }
 
     if (p.get('ss') === '0') {
